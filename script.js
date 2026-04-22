@@ -297,20 +297,23 @@ function getIngredientsWithMeasures(meal) {
 function splitInstructions(text) {
   if (!text) return ["No instructions available."];
 
+  const hasRealText = (value) => /[a-zA-Z0-9]/.test(value);
+
   const cleanLines = text
     .split(/\r?\n/)
     .map((line) => line.trim())
-    .filter((line) => line !== "");
+    .filter((line) => hasRealText(line));
 
   if (cleanLines.length > 1) {
-    return cleanLines.map((line) => line.replace(/^Step\s*\d+[:.-]?\s*/i, ""));
+    return cleanLines
+      .map((line) => line.replace(/^Step\s*\d+[:.-]?\s*/i, "").trim())
+      .filter((line) => hasRealText(line));
   }
 
   return text
     .split(/(?<=[.!?])\s+/)
-    .map((sentence) => sentence.trim())
-    .filter((sentence) => sentence.length > 0)
-    .map((sentence) => sentence.replace(/^Step\s*\d+[:.-]?\s*/i, ""));
+    .map((sentence) => sentence.replace(/^Step\s*\d+[:.-]?\s*/i, "").trim())
+    .filter((sentence) => hasRealText(sentence));
 }
 
 // Get one random meal from the API
