@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧑‍🍳Food Mood</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section id="mainPage">
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-icon">🧑‍🍳</div>
+        <h1>Food Mood</h1>
+        <p>Find delicious meals by ingredient or explore recipes by category</p>
+      </div>
+    </header>
+
+    <main class="page-container">
+      <section class="search-card">
+        <form id="mealForm">
+          <div class="search-grid">
+            <div class="field">
+              <label for="ingredientInput">Search by Ingredient</label>
+              <div class="input-box">
+                <span class="input-icon">🔍</span>
+                <input
+                  type="text"
+                  id="ingredientInput"
+                  placeholder="Enter an ingredient like chicken, rice, or egg"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="categorySelect">Filter by Category</label>
+              <div class="input-box">
+                <span class="input-icon">🏷</span>
+                <select id="categorySelect">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">  <span class="btn-icon">⌕</span>Search Meals</button>
+            <button type="button" id="randomBtn" class="btn btn-secondary">  <span class="btn-icon">⇄</span>Random Meal</button>
+            <button type="button" id="clearBtn" class="btn btn-outline">  <span class="btn-icon">✕</span>Clear Results</button>
+          </div>
+        </form>
+      </section>
+
+      <div id="messageBox" class="message hidden"></div>
+
+      <section class="results-wrap">
+        <div class="results-head">
+          <h2>Recipe Results</h2>
+          <p id="resultsCount">No recipes yet</p>
+        </div>
+
+        <div id="resultsContainer" class="results-grid"></div>
+      </section>
+    </main>
+  </section>
+
+  <section id="detailsPage" class="details-page hidden">
+    <div class="details-container">
+      <button id="backBtn" class="back-btn">← Back to Results</button>
+
+      <article class="details-card">
+        <div id="detailsHero" class="details-hero"></div>
+
+        <div class="details-body">
+          <section class="ingredients-section">
+            <h2>Ingredients & Measures</h2>
+            <div id="ingredientsGrid" class="ingredients-grid"></div>
+          </section>
+
+          <section class="instructions-section">
+            <h2>Cooking Instructions</h2>
+            <div id="instructionsList" class="instructions-list"></div>
+          </section>
+
+          <div class="video-wrap">
+            <a id="youtubeBtn" class="video-btn hidden" target="_blank" rel="noopener noreferrer">
+              Watch Video Tutorial
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
