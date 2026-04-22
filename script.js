@@ -1,5 +1,7 @@
+// Base URL for TheMealDB API
 const BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
+// Main form and input elements
 const mealForm = document.getElementById("mealForm");
 const ingredientInput = document.getElementById("ingredientInput");
 const categorySelect = document.getElementById("categorySelect");
@@ -7,10 +9,12 @@ const randomBtn = document.getElementById("randomBtn");
 const clearBtn = document.getElementById("clearBtn");
 const backBtn = document.getElementById("backBtn");
 
+// Elements used to show messages and results
 const messageBox = document.getElementById("messageBox");
 const resultsContainer = document.getElementById("resultsContainer");
 const resultsCount = document.getElementById("resultsCount");
 
+// Elements for page switching and meal details
 const mainPage = document.getElementById("mainPage");
 const detailsPage = document.getElementById("detailsPage");
 const detailsHero = document.getElementById("detailsHero");
@@ -18,16 +22,19 @@ const ingredientsGrid = document.getElementById("ingredientsGrid");
 const instructionsList = document.getElementById("instructionsList");
 const youtubeBtn = document.getElementById("youtubeBtn");
 
+// This array stores the meals currently shown on the page
 let currentMeals = [];
 
+// Load categories and show the empty state when the page opens
 document.addEventListener("DOMContentLoaded", () => {
   loadCategories();
   renderEmptyState();
 });
 
+// Event type 1: form submit
 mealForm.addEventListener("submit", handleSearch);
 
-// event type 2
+// Event type 2: category change
 categorySelect.addEventListener("change", () => {
   if (categorySelect.value) {
     showMessage(`Category selected: ${categorySelect.value}`, "info");
@@ -36,7 +43,7 @@ categorySelect.addEventListener("change", () => {
   }
 });
 
-// event type 3
+// Event type 3: keyup inside the ingredient input
 ingredientInput.addEventListener("keyup", (event) => {
   const value = ingredientInput.value.trim();
 
@@ -46,15 +53,18 @@ ingredientInput.addEventListener("keyup", (event) => {
     hideMessage();
   }
 
+  // Allow Enter key to trigger the same search
   if (event.key === "Enter") {
     handleSearch(event);
   }
 });
 
+// Event type 4: click buttons
 randomBtn.addEventListener("click", getRandomMeal);
 clearBtn.addEventListener("click", clearResults);
 backBtn.addEventListener("click", showMainPage);
 
+// Get all meal categories from the API and fill the select menu
 async function loadCategories() {
   try {
     const response = await fetch(`${BASE_URL}/list.php?c=list`);
@@ -69,21 +79,23 @@ async function loadCategories() {
       .filter(item => item.strCategory !== "Pork")
       .forEach((item) => {
         const option = document.createElement("option");
-      option.value = item.strCategory;
-      option.textContent = item.strCategory;
-      categorySelect.appendChild(option);
-    });
+        option.value = item.strCategory;
+        option.textContent = item.strCategory;
+        categorySelect.appendChild(option);
+      });
   } catch (error) {
     showMessage("Failed to load meal categories.", "error");
   }
 }
 
+// Search meals by ingredient, category, or both
 async function handleSearch(event) {
   event.preventDefault();
 
   const ingredient = ingredientInput.value.trim();
   const category = categorySelect.value;
 
+  // Stop if the user did not enter anything
   if (!ingredient && !category) {
     showMessage("Please enter an ingredient or choose a category.", "error");
     return;
@@ -96,6 +108,7 @@ async function handleSearch(event) {
   try {
     let meals = [];
 
+    // First search by ingredient if an ingredient was entered
     if (ingredient) {
       const ingredientResponse = await fetch(
         `${BASE_URL}/filter.php?i=${encodeURIComponent(ingredient)}`
@@ -104,6 +117,7 @@ async function handleSearch(event) {
       meals = ingredientData.meals || [];
     }
 
+    // Then search by category if a category was selected
     if (category) {
       const categoryResponse = await fetch(
         `${BASE_URL}/filter.php?c=${encodeURIComponent(category)}`
@@ -111,6 +125,7 @@ async function handleSearch(event) {
       const categoryData = await categoryResponse.json();
       const categoryMeals = categoryData.meals || [];
 
+      // If both ingredient and category are used, keep only the shared meals
       if (ingredient) {
         const categoryIds = categoryMeals.map((meal) => meal.idMeal);
         meals = meals.filter((meal) => categoryIds.includes(meal.idMeal));
@@ -119,6 +134,7 @@ async function handleSearch(event) {
       }
     }
 
+    // Show a message if no meals were found
     if (!meals.length) {
       currentMeals = [];
       resultsCount.textContent = "0 recipes found";
@@ -127,6 +143,7 @@ async function handleSearch(event) {
       return;
     }
 
+    // Limit results and get full details for each meal
     const limitedMeals = meals.slice(0, 8);
     const detailedMeals = await Promise.all(
       limitedMeals.map(async (meal) => {
@@ -136,6 +153,7 @@ async function handleSearch(event) {
       })
     );
 
+    // Remove meals that include pork or alcohol
     currentMeals = detailedMeals
       .filter(Boolean)
       .filter(meal => {
@@ -148,7 +166,8 @@ async function handleSearch(event) {
 
         return !text.includes("pork") && !text.includes("alcohol");
       });
-      
+
+    // Show the final meal cards on the page
     renderMealCards(currentMeals);
     resultsCount.textContent = `${currentMeals.length} recipe(s) found`;
     showMessage(`Found ${currentMeals.length} recipe(s)!`, "success");
@@ -158,6 +177,7 @@ async function handleSearch(event) {
   }
 }
 
+// Create one card for each meal and add it to the results area
 function renderMealCards(meals) {
   resultsContainer.innerHTML = "";
 
@@ -190,6 +210,7 @@ function renderMealCards(meals) {
       </div>
     `;
 
+    // Open the full recipe details when the user clicks the button
     card.querySelector(".view-btn").addEventListener("click", () => {
       renderMealDetails(meal);
     });
@@ -198,6 +219,7 @@ function renderMealCards(meals) {
   });
 }
 
+// Show the selected meal details on the details page
 function renderMealDetails(meal) {
   const ingredients = getIngredientsWithMeasures(meal);
 
@@ -213,6 +235,7 @@ function renderMealDetails(meal) {
     </div>
   `;
 
+  // Add all ingredients with their measures
   ingredientsGrid.innerHTML = ingredients
     .map(
       (item) => `
@@ -226,6 +249,7 @@ function renderMealDetails(meal) {
 
   const steps = splitInstructions(meal.strInstructions);
 
+  // Break instructions into steps and display them
   instructionsList.innerHTML = steps
     .map(
       (step, index) => `
@@ -237,6 +261,7 @@ function renderMealDetails(meal) {
     )
     .join("");
 
+  // Show the YouTube link only if the API gives one
   if (meal.strYoutube && meal.strYoutube.trim() !== "") {
     youtubeBtn.href = meal.strYoutube;
     youtubeBtn.classList.remove("hidden");
@@ -249,6 +274,7 @@ function renderMealDetails(meal) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// Collect ingredients and measures from the meal object
 function getIngredientsWithMeasures(meal) {
   const ingredients = [];
 
@@ -267,6 +293,7 @@ function getIngredientsWithMeasures(meal) {
   return ingredients;
 }
 
+// Split the cooking instructions into readable steps
 function splitInstructions(text) {
   if (!text) return ["No instructions available."];
 
@@ -286,6 +313,7 @@ function splitInstructions(text) {
     .map((sentence) => sentence.replace(/^Step\s*\d+[:.-]?\s*/i, ""));
 }
 
+// Get one random meal from the API
 async function getRandomMeal() {
   try {
     showMessage("Loading a random meal...", "info");
@@ -308,6 +336,7 @@ async function getRandomMeal() {
   }
 }
 
+// Clear all results and reset the form
 function clearResults() {
   currentMeals = [];
   ingredientInput.value = "";
@@ -318,6 +347,7 @@ function clearResults() {
   showMessage("Results cleared.", "info");
 }
 
+// Show a default box when there are no results
 function renderEmptyState(customText = "Search by ingredient or category to discover delicious meals!") {
   resultsContainer.innerHTML = `
     <div class="empty-box">
@@ -328,22 +358,26 @@ function renderEmptyState(customText = "Search by ingredient or category to disc
   `;
 }
 
+// Return from the details page to the main page
 function showMainPage() {
   detailsPage.classList.add("hidden");
   mainPage.classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// Hide the details page
 function hideDetailsPage() {
   detailsPage.classList.add("hidden");
   mainPage.classList.remove("hidden");
 }
 
+// Show a message box with a given message type
 function showMessage(text, type) {
   messageBox.textContent = text;
   messageBox.className = `message ${type}`;
 }
 
+// Hide the message box
 function hideMessage() {
   messageBox.textContent = "";
   messageBox.className = "message hidden";
