@@ -1,9 +1,11 @@
+/* Reset default spacing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Main color used in the design */
 :root {
   --bg-main: #FFF6E9;
   --card: #ffffff;
@@ -32,12 +34,14 @@
   --radius: 18px;
 }
 
+/* General page style */
 body {
   font-family: Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
 }
 
+/* Top hero section */
 .hero {
   background: linear-gradient(90deg, var(--primary), var(--primary-light));
   color: white;
@@ -67,12 +71,14 @@ body {
   opacity: 0.9;
 }
 
+/* Main layout container */
 .page-container {
   max-width: 1180px;
   margin: -26px auto 0;
   padding: 0 18px 40px;
 }
 
+/* Search card */
 .search-card {
   background: var(--card);
   border-radius: var(--radius);
@@ -100,6 +106,7 @@ body {
   width: 100%;
 }
 
+/* Small icon inside each input */
 .input-icon {
   position: absolute;
   left: 18px;
@@ -111,6 +118,7 @@ body {
   pointer-events: none;
 }
 
+/* Input and select style */
 input,
 select {
   width: 100%;
@@ -124,12 +132,14 @@ select {
   outline: none;
 }
 
+/* Focus effect */
 input:focus,
 select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(255, 155, 80, 0.2);
 }
 
+/* Custom select arrow style */
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -147,6 +157,7 @@ select {
   background-repeat: no-repeat;
 }
 
+/* Buttons row */
 .actions {
   display: flex;
   justify-content: center;
@@ -156,6 +167,7 @@ select {
   margin-top: 24px;
 }
 
+/* Shared button style */
 .btn {
   border: none;
   padding: 14px 22px;
@@ -181,6 +193,7 @@ select {
   transform: translateY(-1px);
 }
 
+/* Search Meals button */
 .btn-primary {
   background: linear-gradient(90deg, var(--primary), var(--primary-light));
   color: white;
@@ -190,6 +203,7 @@ select {
   background: linear-gradient(135deg, #be6633 0%, #d98c49 100%);
 }
 
+/* Random Meal button */
 .btn-secondary {
   background: linear-gradient(90deg,  #f7c948, var(--accent));
   color: white;
@@ -199,6 +213,7 @@ select {
   background: linear-gradient(90deg, #e0b84d, #efc14a);
 }
 
+/* Clear Results button */
 .btn-outline {
   background: transparent;
   border: 2px solid var(--border);
@@ -209,6 +224,7 @@ select {
   background: #FFF1E5;
 }
 
+/* Message styles */
 .message {
   max-width: 1180px;
   margin: 18px auto 0;
@@ -232,10 +248,12 @@ select {
   color: var(--info-text);
 }
 
+/* Hide elements when needed */
 .hidden {
   display: none !important;
 }
 
+/* Results section */
 .results-wrap {
   max-width: 1180px;
   margin: 26px auto 0;
@@ -255,6 +273,7 @@ select {
   color: var(--text-soft);
 }
 
+/* Recipe cards grid */
 .results-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -289,6 +308,7 @@ select {
   display: block;
 }
 
+/* Small badge for category */
 .category-badge {
   position: absolute;
   top: 10px;
@@ -337,6 +357,7 @@ select {
   margin-bottom: 16px;
 }
 
+/* View recipe button */
 .view-btn {
   width: 100%;
   border: none;
@@ -354,6 +375,7 @@ select {
   transform: scale(1.03);
 }
 
+/* Empty state style */
 .empty-box {
   background: transparent;
   text-align: center;
@@ -376,6 +398,7 @@ select {
   font-size: 1.15rem;
 }
 
+/* Details page style */
 .details-page {
   padding: 34px 16px 50px;
   background: linear-gradient(180deg, var(--bg-main) 0%, #fffdf9 100%);
@@ -386,6 +409,7 @@ select {
   margin: 0 auto;
 }
 
+/* Back button */
 .back-btn {
   background: transparent;
   border: none;
@@ -400,6 +424,7 @@ select {
   color: var(--primary);
 }
 
+/* Details card */
 .details-card {
   background: white;
   border-radius: 26px;
@@ -414,6 +439,7 @@ select {
   background-position: center;
 }
 
+/* Dark overlay on the meal image */
 .details-overlay {
   position: absolute;
   inset: 0;
@@ -456,13 +482,14 @@ select {
 }
 
 .tag-green {
-  background: linear-gradient(135deg, #d9a441 0%, var(--accent) 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
 }
 
 .details-body {
   padding: 28px 28px 36px;
 }
 
+/* Ingredients and instructions sections */
 .ingredients-section,
 .instructions-section {
   margin-bottom: 30px;
@@ -536,6 +563,7 @@ select {
   padding-top: 5px;
 }
 
+/* Video button section */
 .video-wrap {
   text-align: center;
   margin-top: 10px;
@@ -557,6 +585,7 @@ select {
   filter: brightness(0.98);
 }
 
+/* Tablet screen adjustments */
 @media (max-width: 850px) {
   .search-grid {
     grid-template-columns: 1fr;
@@ -571,6 +600,7 @@ select {
   }
 }
 
+/* Mobile screen adjustments */
 @media (max-width: 560px) {
   .hero {
     padding: 40px 16px 50px;
