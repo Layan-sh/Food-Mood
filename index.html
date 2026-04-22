@@ -7,7 +7,11 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Main page section -->
   <section id="mainPage">
+
+    <!-- Hero section -->
     <header class="hero">
       <div class="hero-inner">
         <div class="hero-icon">🧑‍🍳</div>
@@ -17,6 +21,8 @@
     </header>
 
     <main class="page-container">
+
+      <!-- Search form -->
       <section class="search-card">
         <form id="mealForm">
           <div class="search-grid">
@@ -43,6 +49,7 @@
             </div>
           </div>
 
+          <!-- Action buttons -->
           <div class="actions">
             <button type="submit" class="btn btn-primary">  <span class="btn-icon">⌕</span>Search Meals</button>
             <button type="button" id="randomBtn" class="btn btn-secondary">  <span class="btn-icon">⇄</span>Random Meal</button>
@@ -51,37 +58,46 @@
         </form>
       </section>
 
+      <!-- Message box for success, info, and error messages -->
       <div id="messageBox" class="message hidden"></div>
 
+      <!-- Results section -->
       <section class="results-wrap">
         <div class="results-head">
           <h2>Recipe Results</h2>
           <p id="resultsCount">No recipes yet</p>
         </div>
 
+        <!-- Recipe cards will be added here by JavaScript -->
         <div id="resultsContainer" class="results-grid"></div>
       </section>
     </main>
   </section>
 
+  <!-- Details page for the selected meal -->
   <section id="detailsPage" class="details-page hidden">
     <div class="details-container">
       <button id="backBtn" class="back-btn">← Back to Results</button>
 
       <article class="details-card">
+        <!-- Meal image and title -->
         <div id="detailsHero" class="details-hero"></div>
 
         <div class="details-body">
+          
+          <!-- Ingredients section -->
           <section class="ingredients-section">
             <h2>Ingredients & Measures</h2>
             <div id="ingredientsGrid" class="ingredients-grid"></div>
           </section>
 
+          <!-- Instructions section -->
           <section class="instructions-section">
             <h2>Cooking Instructions</h2>
             <div id="instructionsList" class="instructions-list"></div>
           </section>
 
+          <!-- YouTube button if available -->
           <div class="video-wrap">
             <a id="youtubeBtn" class="video-btn hidden" target="_blank" rel="noopener noreferrer">
               Watch Video Tutorial
